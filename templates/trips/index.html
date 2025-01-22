@@ -1,0 +1,281 @@
+{% load static %}
+{% load custom_filters %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte des événements</title>
+    <link rel="stylesheet" href="{% static 'app/css/styles.css' %}">
+</head>
+<body>
+
+<script>
+    function updateCategoryValue(category, value) {
+        document.getElementById(`${category}-value`).textContent = value;
+    }
+
+
+</script>
+
+
+    <h1>Carte des événements et itinéraire</h1>
+
+    <!-- Formulaire pour la recherche -->
+    <!-- Boutons pour rechercher et calculer les trajets -->
+    <div class="container">
+        <!-- Formulaire -->
+        <form method="post" class="form-container">
+    {% csrf_token %}
+    {{ location_form.as_p }}
+
+    <!-- Curseurs pour chaque catégorie -->
+    <h3>Sélectionnez le nombre d'événements par catégorie :</h3>
+    <div class="filters-container">
+        <div class="category-slider">
+            <label for="festivals-range">Festivals</label>
+            <input
+                type="range"
+                id="festivals-range"
+                name="categories[Festivals]"
+                min="0"
+                max="20"
+                value="{{ categories.Festivals|default:0 }}"
+                oninput="updateCategoryValue('festivals', this.value)">
+            <span id="festivals-value">{{ categories.Festivals|default:0 }}</span>
+        </div>
+
+        <div class="category-slider">
+            <label for="monuments-range">Monuments</label>
+            <input
+                type="range"
+                id="monuments-range"
+                name="categories[Monuments]"
+                min="0"
+                max="20"
+                value="{{ categories.Monuments|default:2 }}"
+                oninput="updateCategoryValue('monuments', this.value)">
+            <span id="monuments-value">{{ categories.Monuments|default:2 }}</span>
+        </div>
+
+        <div class="category-slider">
+            <label for="museums-range">Musées</label>
+            <input
+                type="range"
+                id="museums-range"
+                name="categories[Musées]"
+                min="0"
+                max="20"
+                value="{{ categories.Musées|default:2 }}"
+                oninput="updateCategoryValue('museums', this.value)">
+            <span id="museums-value">{{ categories.Musées|default:2 }}</span>
+        </div>
+
+        <div class="category-slider">
+            <label for="hotels-range">Hôtels</label>
+            <input
+                type="range"
+                id="hotels-range"
+                name="categories[Hôtels]"
+                min="0"
+                max="20"
+                value="{{ categories.Hôtels|default:1 }}"
+                oninput="updateCategoryValue('hotels', this.value)">
+            <span id="hotels-value">{{ categories.Hôtels|default:1 }}</span>
+        </div>
+
+        <div class="category-slider">
+            <label for="campings-range">Campings</label>
+            <input
+                type="range"
+                id="campings-range"
+                name="categories[Campings]"
+                min="0"
+                max="20"
+                value="{{ categories.Campings|default:0 }}"
+                oninput="updateCategoryValue('campings', this.value)">
+            <span id="campings-value">{{ categories.Campings|default:0 }}</span>
+        </div>
+
+        <div class="category-slider">
+            <label for="restaurants-range">Restaurants</label>
+            <input
+                type="range"
+                id="restaurants-range"
+                name="categories[Restaurants]"
+                min="0"
+                max="20"
+                value="{{ categories.Restaurants|default:2 }}"
+                oninput="updateCategoryValue('restaurants', this.value)">
+            <span id="restaurants-value">{{ categories.Restaurants|default:2 }}</span>
+        </div>
+
+        <div class="category-slider">
+            <label for="parks-range">Jardins</label>
+            <input
+                type="range"
+                id="parks-range"
+                name="categories[Parcs et Jardins]"
+                min="0"
+                max="20"
+                value="{{ categories.Jardins|default:1 }}"
+                oninput="updateCategoryValue('parks', this.value)">
+             <span id="parks-value">{{ categories.Jardins|default:1 }}</span>
+
+        </div>
+
+        <div class="category-slider">
+            <label for="cinemas-range">Cinémas</label>
+            <input
+                type="range"
+                id="cinemas-range"
+                name="categories[Cinémas]"
+                min="0"
+                max="20"
+                value="{{ categories.Cinémas|default:0 }}"
+                oninput="updateCategoryValue('cinemas', this.value)">
+            <span id="cinemas-value">{{ categories.Cinémas|default:0 }}</span>
+        </div>
+    </div>
+
+    <div class="button-group">
+        <button type="submit" name="search">Rechercher</button>
+        {% if route_details %}
+            <button type="submit" name="fetch_ratp">Itinéraire RATP</button>
+        {% endif %}
+    </div>
+</form>
+
+        <!-- Carte -->
+        <div class="map-container">
+            {% if map %}
+                <div id="map">
+                    {{ map|safe }}
+                </div>
+            {% else %}
+                <p>Aucune carte disponible. Veuillez effectuer une recherche.</p>
+            {% endif %}
+        </div>
+    
+    <section class="chatbot_container">
+    <div class="chatbot">
+        <h2 class="chatbot-title">Formulaire du Chatbot</h2>
+
+        <form method="post" class="chatbot-form-container">
+            {% csrf_token %}
+            {{ chatbot_form.as_p }}
+            <button type="submit" name="chatbot" class="chatbot-btn">Envoyer au chatbot</button>
+        </form>
+
+{% if messages %}
+    <div class="chatbot-responses">
+        <div class="chatbot-message">
+            <p>{{ messages|last|get_item:"content" }}</p>
+        </div>
+    </div>
+{% endif %}
+
+
+    </div>
+</section>
+
+
+
+    </div>
+
+
+
+
+    <!-- Afficher les événements par catégorie -->
+    {% if categorized_evenements %}
+        <h2>Événements par catégorie</h2>
+        {% for category, events in categorized_evenements.items %}
+            <h3 style="color: {{ colors|default:''|safe }}">{{ category }}</h3>
+
+            <table class="category-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Adresse</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td>{{ event.nom }}</td>
+                            <td>{{ event.description }}</td>
+                            <td>{{ event.adresse }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    {% endif %}
+
+
+<!-- Détails de l'itinéraire -->
+{% if route_details %}
+
+<h2>Itinéraire proposé</h2>
+<p><strong>Distance totale : {{ total_distance|floatformat:2 }} km</strong></p>
+
+<table class="itinerary-table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Durée (minutes)</th>
+            <th>Départ</th>
+            <th>Arrivée</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for point in route_details %}
+            <tr>
+                <td>{{ point.nom }}</td>
+                <td>{{ point.latitude }}</td>
+                <td>{{ point.longitude }}</td>
+                <td>
+                    {% if point.travel_info.duration != 'N/A' %}
+                        {{ point.travel_info.duration }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    {% if point.travel_info.departure_time != 'N/A' %}
+                        {{ point.travel_info.departure_time }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    {% if point.travel_info.arrival_time != 'N/A' %}
+                        {{ point.travel_info.arrival_time }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endif %}
+
+<!-- == FOOTER == -->
+<footer>
+    <p>Application DecouvreIDF - Tous droits réservés</p>
+    <p>Développeurs : Thomas RESPAUT, Edvin AHRATINA, 01/2025</p>
+    <!-- Lien simple vers /tensorboard/ -->
+    <a href="/tensorboard/">Accéder à la page TensorBoard</a>
+</footer>
+
+</body>
+</html>

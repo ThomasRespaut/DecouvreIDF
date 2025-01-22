@@ -1,0 +1,414 @@
+/* Style global pour le corps */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* Couleur de fond douce */
+    color: #333; /* Couleur du texte principale */
+}
+
+/* Titre principal */
+h1, h2, h3 {
+    text-align: center;
+    color: #5c6bc0;
+    margin-top: 20px;
+}
+
+/* Table de catégories */
+.category-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.category-table th, .category-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.category-table th {
+    background-color: #5c6bc0;
+    color: #fff;
+    font-weight: bold;
+}
+
+.category-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.category-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Informations sur l'itinéraire */
+.route-info {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Table d'itinéraires */
+.itinerary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.itinerary-table th, .itinerary-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.itinerary-table th {
+    background-color: #5c6bc0;
+    color: #fff;
+    font-weight: bold;
+}
+
+.itinerary-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.itinerary-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Conteneur principal pour le formulaire et la carte */
+.container {
+    display: flex;
+    flex-direction: row; /* Aligner les éléments côte à côte */
+    gap: 20px; /* Espacement entre le formulaire et la carte */
+    align-items: stretch; /* Étendre les éléments pour qu'ils aient la même hauteur */
+    margin-bottom:  15vh;
+}
+
+/* Style de la carte */
+.map-container {
+    width: 100%;
+    height: 300px;  /* Ajustez cette hauteur en fonction de votre préférence */
+}
+
+
+#map {
+    width: 100%;
+    height: 600px; /* Hauteur ajustée pour la carte */
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 40vh; /* Limiter la hauteur à 40% de la hauteur de la fenêtre */
+}
+
+
+#map iframe {
+    max-height: 100%; /* Faire en sorte que l'iframe s'adapte à son conteneur */
+    width: 100%;
+    border: none !important; /* Supprimer toute bordure */
+}
+
+.map-container p {
+    text-align: center;
+    color: #555;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+/* Pied de page */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #5c6bc0;
+    color: #fff;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+/* Style global pour le formulaire */
+.form-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff; /* Fond blanc pour le formulaire */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère pour un effet de profondeur */
+}
+
+/* Style pour les boutons dans le formulaire */
+.form-container button {
+    background-color: #5c6bc0; /* Couleur de fond bleu */
+    color: #fff; /* Texte blanc */
+    border: none; /* Pas de bordure */
+    padding: 10px 20px; /* Espacement à l'intérieur du bouton */
+    font-size: 16px; /* Taille du texte */
+    border-radius: 5px; /* Coins arrondis */
+    cursor: pointer; /* Curseur en forme de main */
+    transition: background-color 0.3s ease; /* Transition pour un changement de couleur fluide */
+}
+
+/* Style pour le survol des boutons */
+.form-container button:hover {
+    background-color: #0056b3; /* Couleur de fond au survol */
+}
+
+/* Style pour les boutons dans le groupe */
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    margin-top: 20px; /* Espacement entre les boutons et le reste du contenu */
+}
+
+.filters-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Crée deux colonnes de largeur égale */
+    gap: 15px; /* Espacement entre les éléments */
+    width: 100%;
+}
+
+
+.category-slider {
+    display: flex;
+    flex-direction: column;
+    width: 30%; /* Chaque curseur occupe environ 30% de la largeur */
+}
+
+.category-slider label {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.category-slider input[type="range"] {
+    width: 100%;
+    margin-bottom: 1px;
+}
+
+.category-slider span {
+    font-size: 14px;
+    font-weight: normal;
+    color: #333;
+}
+
+/* Style des labels dans le formulaire */
+.form-container label {
+    font-size: 12px; /* Taille du texte plus petite */
+    font-weight: bold; /* Texte en gras */
+    margin-bottom: 6px; /* Espacement réduit entre le label et l'input */
+    color: #333; /* Couleur du texte */
+}
+
+/* Style des champs input dans le formulaire */
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"],
+.form-container input[type="number"],
+.form-container input[type="range"],
+.form-container select {
+    width: 100%; /* Prend toute la largeur disponible */
+    padding: 8px; /* Espacement réduit à l'intérieur de l'input */
+    margin-bottom: 12px; /* Espacement entre les champs réduit */
+    border: 1px solid #ccc; /* Bordure légère */
+    border-radius: 4px; /* Coins arrondis plus petits */
+    font-size: 12px; /* Taille du texte plus petite */
+    color: #333; /* Couleur du texte */
+    background-color: #f9f9f9; /* Fond léger */
+    transition: border-color 0.3s ease, background-color 0.3s ease; /* Transition douce pour les changements */
+}
+
+/* Style au survol ou au focus des champs input */
+.form-container input[type="text"]:focus,
+.form-container input[type="email"]:focus,
+.form-container input[type="password"]:focus,
+.form-container input[type="number"]:focus,
+.form-container input[type="range"]:focus,
+.form-container select:focus {
+    border-color: #5c6bc0; /* Bordure bleue au focus */
+    background-color: #fff; /* Fond blanc au focus */
+    outline: none; /* Supprime l'effet de bordure par défaut du navigateur */
+}
+
+/* Style des champs input de type range */
+.form-container input[type="range"] {
+    -webkit-appearance: none; /* Retirer l'apparence par défaut du range */
+    appearance: none; /* Retirer l'apparence par défaut */
+    background: #ddd; /* Fond de la barre de range */
+    height: 6px; /* Hauteur réduite de la barre */
+    border-radius: 4px; /* Coins arrondis */
+    outline: none; /* Supprimer le contour par défaut */
+}
+
+/* Style au survol ou au focus des champs input de type range */
+.form-container input[type="range"]:focus {
+    background: #5c6bc0; /* Couleur de fond bleu au focus */
+}
+
+/* Style des champs select */
+.form-container select {
+    padding: 8px; /* Espacement réduit à l'intérieur de l'élément select */
+    border: 1px solid #ccc; /* Bordure légère */
+    border-radius: 4px; /* Coins arrondis plus petits */
+    background-color: #f9f9f9; /* Fond léger */
+    font-size: 12px; /* Taille du texte plus petite */
+    color: #333; /* Couleur du texte */
+}
+
+/* Style au survol ou au focus des éléments select */
+.form-container select:focus {
+    border-color: #5c6bc0; /* Bordure bleue au focus */
+    background-color: #fff; /* Fond blanc au focus */
+    outline: none; /* Supprime l'effet de bordure par défaut */
+}
+
+
+/* Responsiveness pour les petits écrans */
+@media (max-width: 768px) {
+    .category-slider {
+        width: 48%; /* Deux éléments par ligne */
+    }
+}
+
+@media (max-width: 480px) {
+    .category-slider {
+        width: 100%; /* Un seul élément par ligne */
+    }
+}
+
+/* Chatbot Styles */
+
+
+
+.chatbot {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 0 auto;
+    text-align: center;
+    overflow: hidden;
+    max-width: 20vw;
+    height: 70vh;
+}
+
+.chatbot-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.chatbot-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.chatbot-form-container textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    height: 80px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.chatbot-form-container textarea:focus {
+    border-color: #5c6bc0;
+}
+
+.chatbot-btn {
+    padding: 12px 20px;
+    border: none;
+    background-color: #5c6bc0;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chatbot-btn:hover {
+    background-color: #3f51b5;
+}
+
+.chatbot-responses {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+    max-height: 35vh;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.chatbot-message {
+    background-color: #f1f3f4;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #555;
+    max-width: 80%;
+    margin: 0 auto;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+/* Custom scrollbar */
+.chatbot-responses::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chatbot-responses::-webkit-scrollbar-thumb {
+    background-color: #5c6bc0;
+    border-radius: 5px;
+}
+
+.chatbot-responses::-webkit-scrollbar-track {
+    background-color: #f4f7fb;
+}
+
+.errorlist {
+    display: none;
+}
+
+/* Pied de page */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #5c6bc0 0%, #3f51b5 100%);
+    color: #fff;
+    margin-top: 20px;
+    font-size: 14px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Ombre subtile au-dessus du footer */
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 5px;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #dcdcdc; /* Couleur plus claire au survol */
+}

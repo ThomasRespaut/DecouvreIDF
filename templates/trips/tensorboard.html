@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualisation TensorBoard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Conteneur principal */
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Titre principal */
+        h1 {
+            font-size: 28px;
+            color: #5c6bc0;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* Lien vers TensorBoard */
+        .tensorboard-link {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #5c6bc0;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .tensorboard-link:hover {
+            background-color: #3f51b5;
+        }
+
+        /* Table de recommandations */
+        .recommendations-container {
+            margin-top: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+
+        .recommendations-container table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+        }
+
+        .recommendations-container th,
+        .recommendations-container td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .recommendations-container th {
+            background-color: #5c6bc0;
+            color: white;
+        }
+
+        .recommendations-container tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+
+        .recommendations-container tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Détails du lieu sélectionné */
+        .place-details {
+            display: none;
+            text-align: left;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
+
+        /* Bouton de rafraîchissement */
+        .refresh-btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background-color: #e68a00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Visualisation TensorBoard</h1>
+        <p><a href="{{ tensorboard_url }}" class="tensorboard-link" target="_blank">Ouvrir TensorBoard</a></p>
+
+        <h2>Liste des recommandations</h2>
+        <div class="recommendations-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lieu ID</th>
+                        <th>Lieu</th>
+                        <th>Lieu Proche ID</th>
+                        <th>Lieu Proche</th>
+                        <th>Distance</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {% for row in recommendations|slice:":100" %}
+                        <tr onclick="showDetails('{{ row.Lieu_ID }}')">
+                            <td>{{ row.Lieu_ID }}</td>
+                            <td>{{ row.Lieu }}</td>
+                            <td>{{ row.Lieu_Proche_ID }}</td>
+                            <td>{{ row.Lieu_Proche }}</td>
+                            <td>{{ row.Distance }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+
+
+
+
+            </table>
+        </div>
+
+        <div class="place-details" id="place-details">
+            <h3 id="place-name">Sélectionnez un lieu pour voir les détails</h3>
+            <p><strong>Adresse:</strong> <span id="place-address">-</span></p>
+            <p><strong>Téléphone:</strong> <span id="place-phone">-</span></p>
+            <p><strong>Note:</strong> <span id="place-rating">-</span></p>
+            <p><strong>Site Web:</strong> <a id="place-website" href="#" target="_blank">Visiter</a></p>
+            <p><strong>Avis:</strong> <span id="place-reviews">-</span></p>
+        </div>
+
+
+        <button class="refresh-btn" onclick="location.reload()">🔄 Rafraîchir la page</button>
+    </div>
+
+<script>
+    // Chargement correct de la variable JSON Django vers JS
+    const placeInfo = JSON.parse('{{ places_info|escapejs|safe }}');
+    
+    console.log("Données des lieux :", placeInfo);
+
+    function showDetails(placeId) {
+
+        try {
+            if (placeInfo.hasOwnProperty(placeId)) {
+                const details = placeInfo[placeId];
+                console.log("ID sélectionné :", placeId);
+                
+
+                document.getElementById('place-name').innerText = details.name || "Non disponible";
+                document.getElementById('place-address').innerText = details.address || "Non disponible";
+                document.getElementById('place-phone').innerText = details.phone || "Non disponible";
+                document.getElementById('place-rating').innerText = details.rating || "Non disponible";
+                document.getElementById('place-website').href = details.website || "#";
+                document.getElementById('place-website').innerText = details.website ? "Visiter le site" : "Aucun site web";
+                // Convertir l'objet JSON des reviews en texte lisible
+                const reviewsContainer = document.getElementById('place-reviews');
+                if (Array.isArray(details.reviews) && details.reviews.length > 0) {
+                    let reviewsText = JSON.stringify(details.reviews, null, 2);
+                    reviewsContainer.innerText = reviewsText;
+                } else {
+                    reviewsContainer.innerText = "Aucun avis disponible";
+                }
+
+
+                document.getElementById('place-details').style.display = 'block';
+
+                alert("Détails affichés.");
+                
+         
+
+            } else {
+                alert("Informations non disponibles pour ce lieu.");
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'affichage des détails :", error);
+        }
+    }
+</script>
+
+</body>
+</html>
