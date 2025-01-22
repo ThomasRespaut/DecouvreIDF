@@ -1,6 +1,8 @@
 import requests
 import json
-
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
 class GooglePlace:
     def __init__(self, api_key, place_id):
@@ -59,7 +61,7 @@ class GooglePlace:
 
 # Utilisation de la classe
 if __name__ == "__main__":
-    API_KEY = "AIzaSyBV9UMNw83F7UN9bZSle8lAbaA1mID8ya0"
+    API_KEY = os.getenv("PLACES_API")
     PLACE_ID = "ChIJjx37cOxv5kcRPWQuEW5ntdk"  # Place ID du lieu
 
     # Créer une instance de la classe GooglePlace
